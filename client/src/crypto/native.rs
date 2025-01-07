@@ -42,15 +42,14 @@ pub(crate) fn decrypt(
     blob: impl AsRef<[u8]>,
     key: &Key,
     iv: impl AsRef<[u8]>,
-) -> Zeroizing<Vec<u8>> {
+) -> Option<Zeroizing<Vec<u8>>> {
     let mut data = blob.as_ref().to_vec();
 
     DecAlg::new_from_slices(key.as_ref(), iv.as_ref())
         .expect("Invalid key length")
         .decrypt_padded_mut::<Pkcs7>(&mut data)
-        .unwrap()
-        .to_vec()
-        .into()
+        .ok()
+        .map(|plain| plain.to_vec().into())
 }
 
 pub(crate) fn decrypt_no_padding(

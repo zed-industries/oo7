@@ -146,7 +146,7 @@ impl<'a> Item<'a> {
                     // Safe unwrap as it is encrypted
                     let aes_key = self.aes_key.as_ref().unwrap();
 
-                    crypto::decrypt(&secret.value, aes_key, iv)
+                    crypto::decrypt(&secret.value, aes_key, iv).ok_or(Error::Decryption)?
                 }
             };
             Ok(value)

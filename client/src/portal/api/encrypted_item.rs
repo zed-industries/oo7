@@ -28,7 +28,7 @@ impl EncryptedItem {
         let iv = self.blob.split_off(self.blob.len() - crypto::iv_len());
 
         // decrypt item
-        let decrypted = crypto::decrypt(self.blob, key, iv);
+        let decrypted = crypto::decrypt(self.blob, key, iv).ok_or(Error::Decryption)?;
 
         let item = Item::try_from(decrypted.as_slice())?;
 

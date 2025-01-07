@@ -31,6 +31,7 @@ pub enum Error {
     NotFound(String),
     /// Input/Output.
     IO(std::io::Error),
+    Decryption,
 }
 
 impl From<zbus::Error> for Error {
@@ -74,6 +75,7 @@ impl fmt::Display for Error {
             Self::Deleted => write!(f, "Item/Collection was deleted, can no longer be used"),
             Self::NotFound(name) => write!(f, "The collection '{name}' doesn't exists"),
             Self::Dismissed => write!(f, "Prompt was dismissed"),
+            Self::Decryption => write!(f, "Decryption failed"),
         }
     }
 }

@@ -29,7 +29,7 @@ mod test {
         let encrypted = encrypt(data, &aes_key, aes_iv);
         assert_eq!(encrypted, expected_encrypted);
 
-        let decrypted = decrypt(&encrypted, &aes_key, aes_iv);
+        let decrypted = decrypt(&encrypted, &aes_key, aes_iv).unwrap();
         assert_eq!(decrypted.to_vec(), data);
     }
 
